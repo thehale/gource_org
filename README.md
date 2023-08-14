@@ -15,7 +15,9 @@
 
 Create [Gource animations](https://gource.io/) for an entire organization's repositories!
 
-## Setup
+<details>
+    <summary>Installation</summary>
+
 1. Install Python 3.8 or later
 2. Create a virtual environment
     ```bash
@@ -36,10 +38,17 @@ Create [Gource animations](https://gource.io/) for an entire organization's repo
     ```
 5. Install `gource`
    ```
-   wget https://github.com/acaudwell/Gource/releases/download/gource-0.54/gource-0.54.tar.gz
-   tar -xzvf gource-0.54.tar.gz  
+   # Ubuntu 20.04
+   sudo apt install gource 
    ```
-6. Create a GitHub Personal Access Token (classic) with the `repo` scope.
+6. Install `ffmpeg`
+   ```
+   # Ubuntu 20.04
+   sudo apt install ffmpeg
+   ```
+7. Create a GitHub Personal Access Token (classic) with the `repo` scope.
+
+</details>
 
 
 ## Usage

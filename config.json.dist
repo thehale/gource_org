@@ -4,5 +4,15 @@
     "exclude_repositories": [
         "repository_name",
         "other_repository_name"
-    ]
+    ],
+    "aliases": {
+        "John Doe": [
+            "John Doe",
+            "johndoe"
+        ],
+        "Jane Doe": [
+            "Jane Doe",
+            "janedoe"
+        ]
+    }
 }

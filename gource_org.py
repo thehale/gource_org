@@ -5,6 +5,11 @@ import requests
 from git import Repo
 
 config = json.load(open("config.json"))
+aliases = {
+    source_name: target_name
+    for target_name, source_names in config["aliases"].items()
+    for source_name in source_names
+}
 
 
 def list_repositories(organization_name: str) -> list:
@@ -50,9 +55,10 @@ def combine_gource_logs(logs_dir: Path, dst: Path = Path("./gource.log")) -> Non
     for log_file in logs_dir.iterdir():
         with open(log_file) as f:
             for line in f:
-                parts = line.split("|")
-                edited_file_path = f"{log_file.name[:-len('.log')]}{parts[-1]}"
-                log_line = "|".join(parts[:-1] + [edited_file_path])
+                timestamp, author, edit, path = line.split("|")
+                edited_file_path = f"{log_file.name[:-len('.log')]}{path}"
+                edited_author = aliases.get(author, author)
+                log_line = "|".join([timestamp, edited_author, edit, edited_file_path])
                 logs.append(log_line)
     dst.write_text("".join(sorted(logs)))
 

@@ -59,3 +59,13 @@ Make a copy of the file `config.json.dist` with the name `config.json`.
  - Set the `token` to the token you created in the [setup](#setup).
  - Set the `organization` to the GitHub username of the org whose repos you want
   to animate.
+
+
+## License
+
+This project is licensed under the [Mozilla Public License v2.0](./LICENSE)
+
+Note, however, that it requires `gource` and `ffmpeg` to be installed on your
+system. Since `gource` is licensed under GPL-3.0, the combined work may need to
+be used under the terms of the GPL-3.0 (consult a lawyer for your specific
+case).

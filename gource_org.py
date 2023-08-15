@@ -73,7 +73,8 @@ def create_gource_visualization(
             --viewport 1280x720 \
             --seconds-per-day 0.05 \
             --highlight-users \
-            --hide filenames,dirnames,progress \
+            --hide filenames,progress \
+            --dir-name-depth 1 \
             --file-idle-time 0 \
             --hide-root \
             -o {tmp_file}

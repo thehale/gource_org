@@ -22,8 +22,13 @@ def list_repositories(organization_name: str) -> list:
 def clone_repos(repositories: list, dst: Path = Path("./")) -> None:
     dst.mkdir(exist_ok=True, parents=True)
     for repository in repositories:
-        print(f"Cloning {repository['name']}")
-        Repo.clone_from(repository["clone_url"], dst / repository["name"])
+        if repository["name"] in config["exclude_repositories"]:
+            print(f"Skipping {repository['name']} because it is in exclude_repositories")
+        elif (dst / repository["name"]).is_dir():
+            print(f"Skipping {repository['name']} because it already exists")
+        else:
+            print(f"Cloning {repository['name']}")
+            Repo.clone_from(repository["clone_url"], dst / repository["name"])
 
 
 def create_gource_logs(repos_dir: Path, dst: Path = Path("./.logs")) -> None:
@@ -31,8 +36,11 @@ def create_gource_logs(repos_dir: Path, dst: Path = Path("./.logs")) -> None:
         raise Exception(f"Invalid repos_dir {repos_dir}. Must be a directory.")
     dst.mkdir(exist_ok=True, parents=True)
     for repo_dir in repos_dir.iterdir():
-        print(f"Creating log for {repo_dir.name}")
-        os.system(f"gource {repo_dir} --output-custom-log {dst / repo_dir.name}.log")
+        if repo_dir.name in config["exclude_repositories"]:
+            print(f"Skipping {repo_dir.name} because it is in exclude_repositories")
+        else:
+            print(f"Creating log for {repo_dir.name}")
+            os.system(f"gource {repo_dir} --output-custom-log {dst / repo_dir.name}.log")
 
 
 def combine_gource_logs(logs_dir: Path, dst: Path = Path("./gource.log")) -> None:

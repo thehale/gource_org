@@ -4,7 +4,9 @@ from pathlib import Path
 import requests
 from git import Repo
 
-config = json.load(open("config.json"))
+with open("config.json") as json_file:
+    config = json.load(json_file)
+
 aliases = {
     source_name: target_name
     for target_name, source_names in config["aliases"].items()

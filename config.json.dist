@@ -1,6 +1,6 @@
 {
     "token": "ghp_the-random-sequence-of-characters-in-your-token",
-    "organization": "organization_name"
+    "organization": "organization_name",
     "exclude_repositories": [
         "repository_name",
         "other_repository_name"

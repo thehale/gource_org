@@ -60,6 +60,10 @@ Make a copy of the file `config.json.dist` with the name `config.json`.
  - Set the `organization` to the GitHub username of the org whose repos you want
   to animate.
 
+Run the script
+```
+python gource_org.py
+```
 
 ## License
 

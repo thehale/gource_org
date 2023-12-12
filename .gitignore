@@ -2,6 +2,8 @@ config.json
 *.csv
 .repos
 .logs
+authors.txt
+visualization.mp4
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -88,6 +88,7 @@ def create_gource_visualization(
             --key \
             --viewport 1280x720 \
             --seconds-per-day 0.05 \
+            --max-file-lag 0.05 \
             --highlight-users \
             --hide filenames,progress \
             --dir-name-depth 1 \

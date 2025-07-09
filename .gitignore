@@ -4,6 +4,7 @@ config.json
 .logs
 authors.txt
 visualization.mp4
+*.ppm
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -60,6 +60,19 @@ Make a copy of the file `config.json.dist` with the name `config.json`.
  - Set the `organization` to the GitHub username of the org whose repos you want
   to animate.
 
+#### Authors
+
+After running the script once, you can run the following command to list all 
+the authors found across all repositories.
+
+```bash
+cat gource.log | cut -d '|' -f 2 | sort | uniq 
+```
+
+Place these names in the config to deduplicate/rename authors
+
+
+### Creating the Animation
 Run the script
 ```
 python gource_org.py

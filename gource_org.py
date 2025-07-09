@@ -15,15 +15,29 @@ aliases = {
 
 
 def list_repositories(organization_name: str) -> list:
-    response = requests.get(
-        f"https://api.github.com/orgs/{organization_name}/repos",
-        headers={
-            "Accept": "application/vnd.github+json",
-            "Authorization": f"Bearer {config['token']}",
-            "X-GitHub-Api-Version": "2022-11-28",
-        },
-    )
-    return json.loads(response.text)
+    url = f"https://api.github.com/orgs/{organization_name}/repos"
+    headers = {"Accept": "application/vnd.github+json"}
+    headers["Authorization"] = f"Bearer {config['token']}"
+
+    all_repos = []
+    page = 1
+
+    while True:
+        response = requests.get(
+            url, headers=headers, params={"per_page": 100, "page": page}
+        )
+        if response.status_code != 200:
+            print(f"Error: {response.status_code}")
+            break
+
+        repos = response.json()
+        if not repos:
+            break
+
+        all_repos.extend(repos)
+        page += 1
+
+    return all_repos
 
 
 def clone_repos(repositories: list, dst: Path = Path("./")) -> None:

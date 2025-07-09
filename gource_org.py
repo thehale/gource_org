@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 import os
 from pathlib import Path
@@ -43,8 +44,10 @@ def list_repositories(organization_name: str) -> list:
 def clone_repos(repositories: list, dst: Path = Path("./")) -> None:
     dst.mkdir(exist_ok=True, parents=True)
     for repository in repositories:
-        if repository["name"] in config["exclude_repositories"]:
-            print(f"Skipping {repository['name']} because it is in exclude_repositories")
+        if repository["name"] in config["exclude"]["repositories"]:
+            print(
+                f"Skipping {repository['name']} because it is in exclude.repositories"
+            )
         elif (dst / repository["name"]).is_dir():
             print(f"Skipping {repository['name']} because it already exists")
         else:
@@ -57,11 +60,13 @@ def create_gource_logs(repos_dir: Path, dst: Path = Path("./.logs")) -> None:
         raise Exception(f"Invalid repos_dir {repos_dir}. Must be a directory.")
     dst.mkdir(exist_ok=True, parents=True)
     for repo_dir in repos_dir.iterdir():
-        if repo_dir.name in config["exclude_repositories"]:
-            print(f"Skipping {repo_dir.name} because it is in exclude_repositories")
+        if repo_dir.name in config["exclude"]["repositories"]:
+            print(f"Skipping {repo_dir.name} because it is in exclude.repositories")
         else:
             print(f"Creating log for {repo_dir.name}")
-            os.system(f"gource {repo_dir} --output-custom-log {dst / repo_dir.name}.log")
+            os.system(
+                f"gource {repo_dir} --output-custom-log {dst / repo_dir.name}.log"
+            )
 
 
 def combine_gource_logs(logs_dir: Path, dst: Path = Path("./gource.log")) -> None:
@@ -75,9 +80,19 @@ def combine_gource_logs(logs_dir: Path, dst: Path = Path("./gource.log")) -> Non
                 edited_file_path = f"{log_file.name[:-len('.log')]}{path}"
                 edited_author = aliases.get(author, author)
                 log_line = "|".join([timestamp, edited_author, edit, edited_file_path])
+                if is_excluded_path(edited_file_path):
+                    continue
+                if not is_included_timestamp(float(timestamp)):
+                    continue
                 logs.append(log_line)
     dst.write_text("".join(sorted(logs)))
 
+def is_excluded_path(path: str) -> bool:
+    return any(path.startswith(p) for p in config["exclude"]["paths"])
+
+def is_included_timestamp(timestamp: float) -> bool:
+    since = datetime.fromisoformat(config["include"]["since"]).timestamp()
+    return timestamp >= since
 
 def create_gource_visualization(
     log_file: Path, dst: Path = Path("./visualization.mp4")

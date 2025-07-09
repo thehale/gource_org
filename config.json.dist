@@ -1,10 +1,18 @@
 {
     "token": "ghp_the-random-sequence-of-characters-in-your-token",
     "organization": "organization_name",
-    "exclude_repositories": [
-        "repository_name",
-        "other_repository_name"
-    ],
+    "exclude": {
+        "repositories": [
+            "repository_name",
+            "other_repository_name"
+        ],
+        "paths": [
+            "repository_name/path/to/exclude",
+        ]
+    },
+    "include": {
+        "since": "YYYY-MM-DD",
+    },
     "aliases": {
         "John Doe": [
             "John Doe",
